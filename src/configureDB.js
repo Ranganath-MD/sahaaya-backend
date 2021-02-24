@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); 
 
+// DB coonection
 exports.configureDB = async () => {
   try {
     await mongoose.connect('mongodb+srv://ranganathmd:uOgKDhu9ZAhmOrnv@developeracc.xzfvx.mongodb.net/dev-sahaaya?retryWrites=true&w=majority',
