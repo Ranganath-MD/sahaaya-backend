@@ -12,7 +12,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true, allowedHeaders: true, origin: true}));
 app.use("/categories", categoriesRouter);
 app.use("/users", usersRouter);
 
