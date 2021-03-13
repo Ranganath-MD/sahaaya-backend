@@ -8,13 +8,17 @@ router.post("/register", (req, res) => {
   const body = req.body;
   User.findOne({ email: body.email })
     .then((result) => {
-      if (result) res.send({ message: "The user already exists" });
+      if (result) res.status(409).send({ status: 409, message: "The user already exists" });
       else {
         const user = new User(body);
         user
           .save()
           .then(() => {
-            res.send({ message: "Successfully registered to the portal" });
+            res.status(200).send({ 
+              status: 200, 
+              message: "Successfully registered to the portal",
+              email: user.email
+            });
           })
           .catch((err) => {
             res.send(err);
@@ -22,7 +26,7 @@ router.post("/register", (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      res.send(err)
     });
 });
 
@@ -30,12 +34,12 @@ router.post("/login", (req, res) => {
   const body = req.body;
   User.findOne({ email: body.email }).then(async (user) => {
     if (!user) {
-      res.send({ message: "Invalid email/ Password" });
+      res.status(401).send({ status: 401, message: "Can't find this user in our System" });
     }
     comparePassword(body.password, user.password)
       .then(async (isValidPassword) => {
         if (!isValidPassword) {
-          res.send({ message: "Invalid email/ Password" });
+          res.status(401).send({ status: 401, message: "Invalid email/ Password" });
         } else {
           const token = await generateToken(user);
           user.tokens.push({
@@ -44,20 +48,18 @@ router.post("/login", (req, res) => {
           user
             .save()
             .then((user) => {
-              res.send({
-                username: user.username,
-                loginTime: user.loginTime,
+              res.status(200).send({
                 token: user.tokens[0].token,
-                email: user.email,
+                type: user.type
               });
             })
             .catch(() => {
-              res.send({ message: "token required" });
+              res.status(401).send({ status: 401, message: "token required" });
             });
         }
       })
       .catch(() => {
-        res.send({ message: "Invalid email/ Password" });
+        res.status(401).send({ status: 401, message: "Invalid email/ Password" });
       });
   });
 });
