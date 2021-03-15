@@ -1,17 +1,17 @@
 const initData = [
   {
-    username: "RanganathMD",
-    email: "ranganath.superadmin@gmail.com",
+    username: "Ranganath MD",
+    email: "ranganath.sahaayaadmin@gmail.com",
     password: "ssa@2021",
     type: "Admin",
-    role: "super-admin",
+    role: "Supervisor",
   },
   {
-    username: "SagarP",
-    email: "sagar.superadmin@gmail.com",
+    username: "Sagar P",
+    email: "sagar.sahaayaadmin@gmail.com",
     password: "ssa@2021",
     type: "Admin",
-    role: "super-admin",
+    role: "Supervisor",
   },
 ];
 module.exports = { initData };

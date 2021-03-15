@@ -49,6 +49,9 @@ router.post("/login", (req, res) => {
             .save()
             .then((user) => {
               res.status(200).send({
+                username: user.username,
+                email: user.email,
+                role: user.role,
                 token: user.tokens[0].token,
                 type: user.type
               });
@@ -70,10 +73,13 @@ router.delete("/logout", authenticateUser, (req, res) => {
   const user = req.user;
   User.findByIdAndUpdate(user._id, { $pull: { tokens: { token: token } } })
     .then(() => {
-      res.send({ notice: "successfully logged out" });
+      res.status(200).send({ 
+        message: "successfully logged out",
+        status: 200
+      });
     })
-    .catch((err) => {
-      res.send(err);
+    .catch(() => {
+      res.status(401).send({ status: 401, message: "Unauthorized" });
     });
 });
 
