@@ -1,9 +1,8 @@
 const express = require("express");
-const { authenticateUser } = require("../middleware/authorizeUser");
 const { Category } = require("../models/categoryModel");
 const router = express.Router();
 
-router.get("/", authenticateUser,  (_, res) => {
+router.get("/",  (_, res) => {
   Category.find()
     .then((result) => {
       res.send(result)
