@@ -2,6 +2,7 @@ const express = require("express")
 const socketIo = require("socket.io");
 const http = require("http");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 const { configureDB } = require("./configureDB");
 const { socketConnection } = require("./utils/socketInit")
 const { campaignRouter } =  require("./controllers/campaignController");
@@ -19,8 +20,23 @@ const io = socketIo(server,  {
   serveClient: true,
 });
 const { categoriesRouter } =  require("./controllers/categoryController");
+const { User } = require("./models/userModel");
 
-
+io.use(async(socket, next) => {
+  if(socket.handshake.query && socket.handshake.query.token) {
+    try {
+      const tokenData = jwt.verify(socket.handshake.query.token, "sahaaya@2021");
+      const user = await User.findOne({ _id: tokenData._id })
+      if (!user) return next(new Error('Authentication error'));
+      socket.emit("authenticated", "authenticated user");
+      next();
+    }catch(err){
+      next(new Error('Authentication error'));
+    }
+  }else {
+    return ;
+  }
+})
 io.on("connection", (socket) => {
   console.log("connected")
   socketConnection(socket)

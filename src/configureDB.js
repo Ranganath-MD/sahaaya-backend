@@ -3,6 +3,7 @@ const { Category } = require('./models/categoryModel');
 const { User } = require('./models/userModel');
 const { initData, categories } = require('./utils/initialData');
 
+mongoose.Promise = global.Promise;
 // DB coonection
 exports.configureDB = async () => {
   try {
@@ -27,8 +28,8 @@ exports.configureDB = async () => {
       }
     })
     categories.forEach(async (data) => {
-      const isThere = await User.findOne({ title: data.title });
-      if(!isThere) {
+      const result = await Category.findOne({ key: data.key });
+      if(!result) {
         const category = new Category(data)
         category.save();
       }else {

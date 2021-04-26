@@ -28,7 +28,19 @@ router.get("/:id", (req, res) => {
       res.status().send({ message: "Something went wrong" })
     })
 })
+const updateCampaign = async (data) => {
+  try {
+    const { campaignId, value } = data;
+    var key = data.campaignKey
+    const campaign = await Campaign.findOneAndUpdate({ _id: campaignId }, 
+      { [key]: value}, { new: true })
+    return campaign;
+  }catch(err){
+    console.log(err)
+  }
+}
 
 module.exports = {
-  campaignRouter: router
+  campaignRouter: router,
+  updateCampaign
 }
