@@ -27,6 +27,10 @@ const userSchema = new Schema({
   role: {
     type: String
   },
+  campaigns: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Campaign'
+  }],
   tokens: [
     {
       token: {

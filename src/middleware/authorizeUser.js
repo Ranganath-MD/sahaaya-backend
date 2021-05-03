@@ -8,7 +8,7 @@ exports.authenticateUser = function ( req, res, next ) {
   User.findOne({
     _id: tokenData._id,
     "tokens.token": token,
-  })
+  }).populate("campaigns")
     .then((user) => {
         if(user){
             req.user = user

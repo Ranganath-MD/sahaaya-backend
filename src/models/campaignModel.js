@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
-const { User } = require("./userModel");
 
 const campaignSchema = new Schema({
   campaignName: { type: String },
@@ -41,4 +40,6 @@ const campaignSchema = new Schema({
 
 const Campaign = mongoose.model("Campaign", campaignSchema);
 
-module.exports = { Campaign };
+module.exports = { 
+  Campaign, campaignSchema
+};

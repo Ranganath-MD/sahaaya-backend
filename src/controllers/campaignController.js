@@ -2,6 +2,7 @@ const express = require("express");
 const { authenticateUser } = require("../middleware/authorizeUser");
 const router = express.Router();
 const { Campaign } = require("../models/campaignModel");
+const { User } = require("../models/userModel");
 
 router.post("/", authenticateUser, (req, res) => {
   const body = req.body;
@@ -10,6 +11,13 @@ router.post("/", authenticateUser, (req, res) => {
   campaign
     .save()
     .then((result) => {
+      const { campaigner } = result;
+      console.log(result, campaigner)
+      User.findOne(campaigner)
+      .then(user => {
+        user.campaigns.push(result._id)
+        user.save();
+      })
       res.send(result);
     })
     .catch((err) => {
