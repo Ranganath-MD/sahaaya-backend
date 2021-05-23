@@ -32,14 +32,40 @@ const campaignSchema = new Schema({
     email: { type: String, default: "" },
     adhaar: { type: Number || String, default: "" },
   },
-  campaigner : {
+  adhaar_photo: [
+    {
+      url: { type: String },
+      public_id: { type: String },
+    },
+  ],
+  beneficiary_photo: [
+    {
+      url: { type: String },
+      public_id: { type: String },
+    },
+  ],
+  others: [
+    {
+      url: { type: String },
+      public_id: { type: String },
+    },
+  ],
+  campaigner: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: "User",
+  },
+  bank: {
+    bankName : { type: String },
+    branch : { type: String },
+    ifsccode : { type: String },
+    accountName : { type: String },
+    accountNumber : { type: Number }
   }
 });
 
 const Campaign = mongoose.model("Campaign", campaignSchema);
 
-module.exports = { 
-  Campaign, campaignSchema
+module.exports = {
+  Campaign,
+  campaignSchema,
 };

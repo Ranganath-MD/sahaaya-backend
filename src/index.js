@@ -9,6 +9,8 @@ const { campaignRouter } =  require("./controllers/campaignController");
 const { usersRouter } =  require("./controllers/usersController");
 const app = express();
 const server = http.createServer(app);
+require("dotenv").config();
+app.use('/src/uploads', express.static(__dirname + '/src/uploads'));
 
 const io = socketIo(server,  {
   cors: {
