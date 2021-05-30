@@ -10,7 +10,7 @@ const campaignSchema = new Schema({
   longDescription: { type: String },
   status: {
     type: String,
-    enum: ["IN_DRAFT", "SUBMITTED", "IN_PROGRESS", "COMPLETED"],
+    enum: ["IN_DRAFT", "IN_REVIEW", "SUBMITTED", "IN_PROGRESS", "COMPLETED"],
     default: "IN_DRAFT",
   },
   fromdate: { type: String },

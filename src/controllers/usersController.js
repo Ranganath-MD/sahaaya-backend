@@ -3,6 +3,8 @@ const router = express.Router();
 const { User } = require("../models/userModel");
 const { comparePassword, generateToken } = require("../utils/utilities");
 const { authenticateUser } = require("../middleware/authorizeUser");
+const { upload } = require("../utils/multer");
+const { cloudinary } = require("../utils/cloudinary");
 
 router.post("/register", (req, res) => {
   const body = req.body;
@@ -100,6 +102,50 @@ router.get("/profile", authenticateUser, (req, res) => {
   res.send(user);
 });
 
+const updateUser = async (data) => {
+  try {
+    const { id, value } = data;
+    var key = data.key;
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { [key]: value },
+      { new: true }
+    );
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const uploadFile = async (req) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+router.post("/upload", upload, async (req, res) => {
+  try {
+    const result = await uploadFile(req);
+    const file = {
+      url: result.url,
+      public_id: result.public_id,
+    };
+    const user = await User.findOne({ _id: req.body.id });
+    user["avatar"].public_id = file.public_id;
+    user["avatar"].url = file.url;
+    await user.save();
+    res.status(200).send({
+      message: "Successfully added file",
+      file: user["avatar"]
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 module.exports = {
   usersRouter: router,
+  updateUser
 };

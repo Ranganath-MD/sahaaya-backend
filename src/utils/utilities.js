@@ -24,6 +24,10 @@ exports.generateToken = async (user) => {
 };
 
 exports.validateToken = (req_token) => {
-  const tokenData = jwt.verify(req_token, "sahaaya@2021");
-  return tokenData;
+  try{
+    const tokenData = jwt.verify(req_token, "sahaaya@2021");
+    return tokenData;
+  }catch(err) {
+    return "error"
+  }
 };

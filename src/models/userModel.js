@@ -20,17 +20,38 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  about: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  occupation: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  phone: {
+    type: Number,
+  },
   type: {
     type: String,
-    default: "User"
+    default: "User",
   },
   role: {
-    type: String
+    type: String,
   },
-  campaigns: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Campaign'
-  }],
+  avatar: {
+    public_id: String,
+    url: String
+  },
+  campaigns: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Campaign",
+    },
+  ],
   tokens: [
     {
       token: {
@@ -70,5 +91,5 @@ userSchema.pre("save", async function (next) {
 const User = mongoose.model("User", userSchema);
 
 module.exports = {
-    User
-}
+  User,
+};

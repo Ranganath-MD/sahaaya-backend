@@ -152,8 +152,6 @@ const updateCampaign = async (data) => {
   }
 };
 
-
-
 const updateBeneficiary = async (data) => {
   try {
     const { campaignId, value } = data;
