@@ -43,8 +43,13 @@ const userSchema = new Schema({
     type: String,
   },
   avatar: {
-    public_id: String,
-    url: String
+    public_id: {
+      type: String
+    },
+    url: {
+      type: String
+    },
+    default: {}
   },
   campaigns: [
     {

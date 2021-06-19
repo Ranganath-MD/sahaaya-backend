@@ -128,24 +128,27 @@ const uploadFile = async (req) => {
 
 router.post("/upload", upload, async (req, res) => {
   try {
-    const result = await uploadFile(req);
-    const file = {
-      url: result.url,
-      public_id: result.public_id,
-    };
     const user = await User.findOne({ _id: req.body.id });
-    user["avatar"].public_id = file.public_id;
-    user["avatar"].url = file.url;
-    await user.save();
-    res.status(200).send({
-      message: "Successfully added file",
-      file: user["avatar"]
-    });
+    const data = await cloudinary.uploader.destroy(user.avatar && user.avatar.public_id);
+    if (data.result === "ok") {
+      const result = await uploadFile(req);
+      const file = {
+        url: result.url,
+        public_id: result.public_id,
+      };
+      user["avatar"].public_id = file.public_id;
+      user["avatar"].url = file.url;
+      await user.save();
+      res.status(200).send({
+        message: "Successfully added file",
+        file: user["avatar"],
+      });
+    }
   } catch (err) {
-    console.log(err);
+    res.send({ message: "Not able to upload image, try next time" })
   }
 });
 module.exports = {
   usersRouter: router,
-  updateUser
+  updateUser,
 };

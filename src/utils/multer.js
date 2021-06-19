@@ -1,19 +1,12 @@
 const multer = require("multer");
 const path = require("path");
-// configure multer
-// const storage = multer.diskStorage({
-//   destination: (_, __, cb) => {
-//     cb(null, './src/uploads');
-//   },
-//   filename: function (_, file, cb) {
-//     cb(null, Date.now() + file.originalname);
-//   },
-// });
-const storage = multer.diskStorage({});
 
+const storage = multer.diskStorage({});
+const supportedFormats = [".jpg", ".jpeg", ".png", ".svg", ".JPG", ".JPEG", ".PNG", ".SVG"]
 const fileFilter = (_, file, cb) => {
   let ext = path.extname(file.originalname);
-  if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".svg") {
+  console.log(ext)
+  if (!supportedFormats.includes(ext)) {
     cb(new Error("File type is not supported"), false);
     return;
   }
