@@ -10,7 +10,7 @@ const campaignSchema = new Schema({
   longDescription: { type: String },
   status: {
     type: String,
-    enum: ["IN_DRAFT", "IN_REVIEW", "SUBMITTED", "IN_PROGRESS", "COMPLETED"],
+    enum: ["IN_DRAFT", "IN_REVIEW", "APPROVED", "REJECTED", "COMPLETED"],
     default: "IN_DRAFT",
   },
   fromdate: { type: String },
@@ -32,6 +32,10 @@ const campaignSchema = new Schema({
     email: { type: String, default: "" },
     adhaar: { type: Number || String, default: "" },
   },
+  statusChangedBy: { type: Object },
+  submittedDate: { type: String, default: "" },
+  rejected_reason: { type: String },
+  changedStatusOn: { type: String, default: "" },
   adhaar_photo: [
     {
       url: { type: String },
@@ -55,12 +59,12 @@ const campaignSchema = new Schema({
     ref: "User",
   },
   bank: {
-    bankName : { type: String },
-    branch : { type: String },
-    ifsccode : { type: String },
-    accountName : { type: String },
-    accountNumber : { type: Number }
-  }
+    bankName: { type: String },
+    branch: { type: String },
+    ifsccode: { type: String },
+    accountName: { type: String },
+    accountNumber: { type: Number },
+  },
 });
 
 const Campaign = mongoose.model("Campaign", campaignSchema);
