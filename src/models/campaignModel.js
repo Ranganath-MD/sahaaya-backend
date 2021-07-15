@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 const campaignSchema = new Schema({
   campaignName: { type: String },
   createdDate: { type: Date, default: Date.now },
-  category: { type: String },
+  category: { 
+    type: String
+  },
   description: { type: String },
   longDescription: { type: String },
   status: {
