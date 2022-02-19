@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const campaignSchema = new Schema({
   campaignName: { type: String },
   createdDate: { type: Date, default: Date.now },
-  category: { 
-    type: String
+  category: {
+    type: String,
   },
   description: { type: String },
   longDescription: { type: String },
@@ -18,6 +18,7 @@ const campaignSchema = new Schema({
   fromdate: { type: String },
   enddate: { type: String },
   target: { type: Number },
+  donation: { type: Number, default: 0 },
   step1: { type: Boolean, default: false },
   step2: { type: Boolean, default: false },
   step3: { type: Boolean, default: false },
