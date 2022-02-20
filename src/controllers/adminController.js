@@ -6,6 +6,7 @@ const { User } = require("../models/userModel");
 const router = Router();
 
 router.get("/dashboard", checkAdmin, async (req, res) => {
+  let donation = 0;
   try {
     const campaigns = await Campaign.find({ status: { $ne: "IN_DRAFT" } })
       .sort({ submittedDate: "desc" })
@@ -13,6 +14,12 @@ router.get("/dashboard", checkAdmin, async (req, res) => {
     const count_campaigns = await Campaign.countDocuments({
       status: { $ne: "IN_DRAFT" },
     });
+    
+    for (let campaign of campaigns) {
+      donation = donation + campaign.donation;
+    }
+
+    console.log(donation);
     const campaigners = await User.find()
       .select("username email avatar campaigns")
       .where("campaigns")
@@ -24,6 +31,7 @@ router.get("/dashboard", checkAdmin, async (req, res) => {
       campaigns,
       total_campaigns: count_campaigns,
       campaigners,
+      total_donation: donation,
       total_campaigners: count_campaigners,
     });
   } catch (err) {

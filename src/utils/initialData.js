@@ -4,15 +4,15 @@ const initData = [
     email: "ranganath.sahaayaadmin@gmail.com",
     password: "ssa@2021",
     type: "Admin",
-    role: "Supervisor",
+    role: "Admin",
   },
   {
-    username: "Sagar P",
-    email: "sagar.sahaayaadmin@gmail.com",
-    password: "ssa@2021",
+    username: "Admin",
+    email: "admin@sahaaya.com",
+    password: "ssa@2022",
     type: "Admin",
-    role: "Supervisor",
-  },
+    role: "Admin",
+  }
 ];
 const categories =  [
   {
